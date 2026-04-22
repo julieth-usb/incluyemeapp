@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
 import '../utils/app_theme.dart';
@@ -133,7 +133,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Educacion inclusiva para todos',
+                      'Educación inclusiva para todos',
                       style: TextStyle(
                         fontSize: 15,
                         color: AppColors.textMid,
@@ -155,3 +155,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+

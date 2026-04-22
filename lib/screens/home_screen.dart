@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Aquí encontrarás información clara y estrategias pedagógicas para apoyar a tus estudiantes con diversas discapacidades cognitivas.',
+            'Aquí encontrarás información clara y estrategias pedagógicas, para apoyar a tus estudiantes con diversas discapacidades cognitivas.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white.withAlpha(230),
                   height: 1.5,
@@ -123,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Cada estudiante es único. Las estrategias presentadas son puntos de partida; adáptalas siempre a las necesidades individuales de cada alumno.',
+                  'Cada estudiante es único. Las estrategias presentadas son puntos de partida, adáptalas siempre a las necesidades individuales de cada alumno.',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: const Color(0xFF8D6E00),
                         height: 1.5,

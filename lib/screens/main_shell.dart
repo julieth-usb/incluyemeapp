@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
 import '../utils/app_theme.dart';
@@ -82,7 +82,7 @@ class _MainShellState extends State<MainShell> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Cerrar sesion'),
+          title: const Text('Cerrar sesión'),
           content: const Text('Quieres salir y volver a la pantalla de acceso?'),
           actions: [
             TextButton(
@@ -203,3 +203,4 @@ class _LogoutButton extends StatelessWidget {
     );
   }
 }
+

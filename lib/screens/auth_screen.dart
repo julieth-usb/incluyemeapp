@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
 import '../utils/app_theme.dart';
@@ -156,7 +156,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   return 'Ingresa un correo';
                 }
                 if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())) {
-                  return 'Correo no valido';
+                  return 'Correo no válido';
                 }
                 return null;
               },
@@ -214,7 +214,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Se ha enviado un correo para restablecer la contrasena.'),
+        content: const Text('Se ha enviado un correo para restablecer la contraseña.'),
         backgroundColor: AppColors.darkGreen,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -313,7 +313,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Accede para continuar con toda la informacion educativa',
+            'Accede para continuar con toda la información educativa',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white.withAlpha(230),
@@ -344,7 +344,7 @@ class _AuthScreenState extends State<AuthScreen> {
         children: [
           Expanded(
             child: _ModeButton(
-              label: 'Iniciar sesion',
+              label: 'Iniciar sesión',
               selected: _mode == _AuthMode.login,
               onTap: () => _setMode(_AuthMode.login),
             ),
@@ -400,7 +400,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   return 'Ingresa tu correo electronico';
                 }
                 if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())) {
-                  return 'Ingresa un correo valido';
+                  return 'Ingresa un correo válido';
                 }
                 return null;
               },
@@ -420,8 +420,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 }
               },
               decoration: _inputDecoration(
-                label: 'Contrasena',
-                hint: '••••••••',
+                label: 'contraseña',
+                hint: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
                 icon: Icons.lock_outline_rounded,
               ).copyWith(
                 suffixIcon: IconButton(
@@ -438,10 +438,10 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Ingresa tu contrasena';
+                  return 'Ingresa tu contraseña';
                 }
                 if (value.length < 6) {
-                  return 'La contrasena debe tener al menos 6 caracteres';
+                  return 'La contraseña debe tener al menos 6 caracteres';
                 }
                 return null;
               },
@@ -454,8 +454,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_) => _handlePrimaryAction(),
                 decoration: _inputDecoration(
-                  label: 'Confirmar contrasena',
-                  hint: 'Repite tu contrasena',
+                  label: 'Confirmar contraseña',
+                  hint: 'Repite tu contraseña',
                   icon: Icons.lock_person_outlined,
                 ).copyWith(
                   suffixIcon: IconButton(
@@ -474,10 +474,10 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Confirma tu contrasena';
+                    return 'Confirma tu contraseña';
                   }
                   if (value != _passwordController.text) {
-                    return 'Las contrasenas no coinciden';
+                    return 'Las contraseñas no coinciden';
                   }
                   return null;
                 },
@@ -489,7 +489,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: _handlePasswordReset,
-                  child: const Text('Olvidaste la contrasena?'),
+                  child: const Text('¿Olvidaste la contraseña?'),
                 ),
               ),
             ],
@@ -530,7 +530,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         )
                       : Text(
-                          _mode == _AuthMode.login ? 'Iniciar sesion' : 'Crear cuenta',
+                          _mode == _AuthMode.login ? 'Iniciar sesión' : 'Crear cuenta',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -577,10 +577,10 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Widget _buildSectionTitle(BuildContext context) {
-    final title = _mode == _AuthMode.login ? 'Inicia sesion' : 'Crear cuenta';
+    final title = _mode == _AuthMode.login ? 'Inicia sesión' : 'Crear cuenta';
     final subtitle = _mode == _AuthMode.login
         ? 'Accede a tu cuenta docente'
-        : 'Registrate con cualquier correo valido';
+        : 'Regístrate con cualquier correo válido';
 
     return Column(
       children: [
@@ -632,9 +632,9 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Widget _buildBottomLink(BuildContext context) {
     final message = _mode == _AuthMode.login
-        ? '¿No tienes cuenta? '
-        : '¿Ya tienes cuenta? ';
-    final action = _mode == _AuthMode.login ? 'Registrate aqui' : 'Inicia sesion';
+        ? 'Â¿No tienes cuenta? '
+        : 'Â¿Ya tienes cuenta? ';
+    final action = _mode == _AuthMode.login ? 'Regístrate aquí' : 'Inicia sesión';
     final targetMode =
         _mode == _AuthMode.login ? _AuthMode.register : _AuthMode.login;
 
@@ -816,7 +816,7 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: const Text('Recuperar contrasena'),
+      title: const Text('Recuperar contraseña'),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -834,7 +834,7 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
                     return 'Ingresa tu correo electronico';
                   }
                   if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())) {
-                    return 'Ingresa un correo valido';
+                    return 'Ingresa un correo válido';
                   }
                   return null;
                 },
@@ -844,7 +844,7 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
                 controller: _newPasswordController,
                 obscureText: _obscureNewPassword,
                 decoration: InputDecoration(
-                  labelText: 'Nueva contrasena',
+                  labelText: 'Nueva contraseña',
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureNewPassword
@@ -860,10 +860,10 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Ingresa una nueva contrasena';
+                    return 'Ingresa una nueva contraseña';
                   }
                   if (value.length < 6) {
-                    return 'La contrasena debe tener al menos 6 caracteres';
+                    return 'La contraseña debe tener al menos 6 caracteres';
                   }
                   return null;
                 },
@@ -873,7 +873,7 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirmPassword,
                 decoration: InputDecoration(
-                  labelText: 'Confirmar nueva contrasena',
+                  labelText: 'Confirmar nueva contraseña',
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword
@@ -889,10 +889,10 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Confirma la nueva contrasena';
+                    return 'Confirma la nueva contraseña';
                   }
                   if (value != _newPasswordController.text) {
-                    return 'Las contrasenas no coinciden';
+                    return 'Las contraseñas no coinciden';
                   }
                   return null;
                 },
@@ -923,3 +923,4 @@ class _PasswordResetDialogState extends State<_PasswordResetDialog> {
     );
   }
 }
+

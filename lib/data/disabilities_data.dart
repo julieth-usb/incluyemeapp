@@ -7,7 +7,7 @@ const List<Disability> disabilities = [
     shortDescription:
         'Pérdida parcial o total de la audición que afecta la comunicación y el aprendizaje.',
     fullDescription:
-        'La discapacidad auditiva abarca desde la hipoacusia (pérdida auditiva parcial) hasta la sordera profunda. Puede ser prelocutiva (antes de adquirir el lenguaje) o poslocutiva. Los estudiantes sordos o con baja audición son personas con todas sus capacidades cognitivas intactas; la principal barrera es de acceso a la comunicación. Con intérpretes de lengua de señas, apoyos visuales y adaptaciones en la comunicación, pueden participar plenamente en el aula.',
+        'La discapacidad auditiva abarca desde la hipoacusia (pérdida auditiva parcial) hasta la sordera profunda. Puede ser prelocutiva (antes de adquirir el lenguaje) o poslocutiva. Los estudiantes sordos o con baja audición son personas con todas sus capacidades cognitivas intactas; la principal barrera es el acceso a la comunicación. Con intérpretes de lengua de señas, apoyos visuales y adaptaciones en la comunicación, pueden participar plenamente en el aula.',
     iconEmoji: '👂',
     characteristics: [
       'Dificultad o imposibilidad para procesar la información auditiva.',
@@ -39,7 +39,7 @@ const List<Disability> disabilities = [
       PedagogicalStrategy(
         title: 'Ubicación óptima en el aula',
         description:
-            'Ubica al estudiante en primera fila o en una posición donde pueda ver al docente y a sus compañeros de frente. Evita que quede de espaldas a el tablero o a las fuentes de luz.',
+            'Ubica al estudiante en primera fila, o en una posición donde pueda ver al docente y a sus compañeros de frente. Evita que quede de espaldas al tablero o a las fuentes de luz.',
         iconEmoji: '🎯',
       ),
       PedagogicalStrategy(
@@ -143,7 +143,7 @@ const List<Disability> disabilities = [
       PedagogicalStrategy(
         title: 'Instrucciones claras y concretas',
         description:
-            'Da instrucciones cortas, directas y de una en una. Evita el lenguaje ambiguo, irónico o las metáforas. Verifica la comprensión pidiendo al estudiante que explique la tarea con sus propias palabras.',
+            'Da instrucciones cortas, directas y de una en una. Evita el lenguaje ambiguo, irónico o las metáforas. Verifica la comprensión, pidiendo al estudiante que explique la tarea con sus propias palabras.',
         iconEmoji: '📋',
       ),
       PedagogicalStrategy(
@@ -198,13 +198,13 @@ const List<Disability> disabilities = [
       PedagogicalStrategy(
         title: 'Instrucciones multimodales',
         description:
-            'Combina instrucciones verbales con escritas en el tablero. Pide al estudiante que repita la instrucción antes de comenzar para asegurar su comprensión.',
+            'Combina instrucciones verbales con escritas en el tablero. Pide al estudiante que repita la instrucción antes de comenzar, para asegurar su comprensión.',
         iconEmoji: '📝',
       ),
       PedagogicalStrategy(
         title: 'Movimiento y descansos activos',
         description:
-            'Incorpora pausas de movimiento breves (1-3 minutos) entre actividades. Asigna roles que impliquen moverse (repartir materiales, borrar el tablero) para canalizar la energía.',
+            'Incorpora pausas de movimiento breves (1-3 minutos) entre actividades. Asigna roles que impliquen moverse (repartir materiales, borrar el tablero), para canalizar la energía.',
         iconEmoji: '🏃',
       ),
       PedagogicalStrategy(
@@ -216,7 +216,7 @@ const List<Disability> disabilities = [
       PedagogicalStrategy(
         title: 'Apoyos organizacionales',
         description:
-            'Usa agendas, listas de verificación y recordatorios visuales. Enséñale a usar colores para organizar sus materiales por asignatura y reduce el desorden en su escritorio.',
+            'Usa agendas, listas de verificación y recordatorios visuales. Enséñale a usar colores para organizar sus materiales por asignatura, y reduce el desorden en su escritorio.',
         iconEmoji: '🗂️',
       ),
     ],
@@ -253,7 +253,7 @@ const List<Disability> disabilities = [
       PedagogicalStrategy(
         title: 'Adaptar los materiales',
         description:
-            'Simplifica los textos, reduce la cantidad de información por página y usa letras de mayor tamaño. Adapta las evaluaciones al nivel real del estudiante sin excluirlo del currículo general.',
+            'Simplifica los textos, reduce la cantidad de información por página y usa letras de mayor tamaño. Adapta las evaluaciones al nivel real del estudiante, sin excluirlo del currículo general.',
         iconEmoji: '📚',
       ),
       PedagogicalStrategy(
@@ -351,7 +351,7 @@ const List<Disability> disabilities = [
       PedagogicalStrategy(
         title: 'Diseño Universal para el Aprendizaje (DUA)',
         description:
-            'Aplica principios DUA: ofrece múltiples medios de representación, acción/expresión y motivación. Esto beneficia a todos los estudiantes y es especialmente crucial para quienes tienen DI.',
+            'Aplica principios DUA: ofrece múltiples medios de representación, acción/expresión y motivación. Esto beneficia a todos los estudiantes, y es especialmente crucial para quienes tienen DI.',
         iconEmoji: '🌐',
       ),
       PedagogicalStrategy(
