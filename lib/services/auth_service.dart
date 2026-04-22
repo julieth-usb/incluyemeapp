@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -95,6 +96,21 @@ class AuthService {
 
   static Future<NativeSignInAttempt> tryNativeGoogleSignIn() async {
     try {
+      if (kIsWeb) {
+        final provider = GoogleAuthProvider();
+        provider.setCustomParameters({'prompt': 'select_account'});
+        final result = await _auth.signInWithPopup(provider);
+        final email = result.user?.email;
+
+        if (email == null || email.isEmpty) {
+          return const NativeSignInAttempt.failed(
+            'Google no devolvio correo. Verifica la configuracion OAuth web.',
+          );
+        }
+
+        return NativeSignInAttempt.success(email);
+      }
+
       // Intentar forzar la cuenta en dispositivos que puedan tener varias
       await _googleSignIn.signOut();
       
@@ -113,6 +129,9 @@ class AuthService {
 
       return NativeSignInAttempt.success(googleUser.email);
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'popup-closed-by-user' || e.code == 'cancelled-popup-request') {
+        return const NativeSignInAttempt.cancelled();
+      }
       return NativeSignInAttempt.failed(_handleFirebaseError(e));
     } catch (error) {
       return NativeSignInAttempt.failed('Google error no esperado: $error');
@@ -167,6 +186,12 @@ class AuthService {
         return 'Ya existe una cuenta con ese correo usando otro método.';
       case 'network-request-failed':
         return 'Sin conexión a internet.';
+      case 'invalid-credential':
+        return 'Credencial de Google invalida. Revisa SHA-1/SHA-256 y el package name en Firebase.';
+      case 'app-not-authorized':
+        return 'La app no esta autorizada para Google Sign-In. Revisa OAuth, SHA y package name.';
+      case 'operation-not-allowed':
+        return 'Google Sign-In no esta habilitado en Firebase Authentication.';
       default:
         return 'Error: ${e.message}';
     }
