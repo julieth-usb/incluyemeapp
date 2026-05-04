@@ -19,7 +19,6 @@ class DisabilityDetailScreen extends StatelessWidget {
       length: 2,
       initialIndex: initialTab,
       child: Scaffold(
-        backgroundColor: AppColors.background,
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
@@ -97,7 +96,7 @@ class _InfoTab extends StatelessWidget {
                 Text(
                   disability.fullDescription,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textMid,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         height: 1.7,
                       ),
                 ),
@@ -136,7 +135,7 @@ class _InfoTab extends StatelessWidget {
                                 .textTheme
                                 .bodyMedium
                                 ?.copyWith(
-                                  color: AppColors.textMid,
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                                   height: 1.5,
                                 ),
                           ),
@@ -235,14 +234,14 @@ class _StrategyCard extends StatelessWidget {
                   strategy.title,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   strategy.description,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textMid,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         height: 1.6,
                       ),
                 ),
@@ -266,11 +265,11 @@ class _SectionCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(13),
+            color: Colors.black.withAlpha(Theme.of(context).brightness == Brightness.dark ? 50 : 13),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -297,7 +296,7 @@ class _SectionTitle extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.textDark,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
         ),
       ],

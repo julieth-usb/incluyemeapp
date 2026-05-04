@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/app_theme.dart';
-import '../widgets/app_logo.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,7 +8,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -16,8 +15,6 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              _buildHeader(context),
-              const SizedBox(height: 32),
               _buildWelcomeCard(context),
               const SizedBox(height: 28),
               _buildTipCard(context),
@@ -26,33 +23,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Row(
-      children: [
-        const AppLogo(size: 52),
-        const SizedBox(width: 14),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Inclúyeme',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
-                  ),
-            ),
-            Text(
-              'Educación inclusiva para todos',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.darkGreen,
-                  ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 
@@ -101,9 +71,16 @@ class HomeScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E1),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.amber.withAlpha(20)
+            : const Color(0xFFFFF8E1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFFFCC02), width: 1.5),
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.amber.withAlpha(80)
+              : const Color(0xFFFFCC02),
+          width: 1.5,
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,14 +95,18 @@ class HomeScreen extends StatelessWidget {
                   'Recuerda',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF8D6E00),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.amber.shade200
+                            : const Color(0xFF8D6E00),
                       ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Cada estudiante es único. Las estrategias presentadas son puntos de partida, adáptalas siempre a las necesidades individuales de cada alumno.',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: const Color(0xFF8D6E00),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.amber.shade100
+                            : const Color(0xFF8D6E00),
                         height: 1.5,
                       ),
                 ),

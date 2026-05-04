@@ -11,7 +11,6 @@ class DisabilitiesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: _GradientAppBar(
         title: 'Discapacidades',
         subtitle: 'Tipos y características',
@@ -47,11 +46,11 @@ class _DisabilityCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(13),
+              color: Colors.black.withAlpha(Theme.of(context).brightness == Brightness.dark ? 50 : 13),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
@@ -82,14 +81,14 @@ class _DisabilityCard extends StatelessWidget {
                     disability.name,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textDark,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     disability.shortDescription,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                           height: 1.4,
                         ),
                     maxLines: 2,

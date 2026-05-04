@@ -11,7 +11,6 @@ class StrategiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: _GradientAppBar(
         title: 'Estrategias',
         subtitle: 'Recomendaciones pedagógicas',
@@ -48,11 +47,11 @@ class _StrategyGroupCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(13),
+              color: Colors.black.withAlpha(Theme.of(context).brightness == Brightness.dark ? 50 : 13),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),
@@ -83,7 +82,7 @@ class _StrategyGroupCard extends StatelessWidget {
                     disability.name,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textDark,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                   ),
                 ),
@@ -115,7 +114,9 @@ class _StrategyGroupCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white.withAlpha(15)
+                            : AppColors.background,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                             color: AppColors.blue.withAlpha(80), width: 1),
@@ -123,7 +124,7 @@ class _StrategyGroupCard extends StatelessWidget {
                       child: Text(
                         '${s.iconEmoji} ${s.title}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AppColors.textMid,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
                       ),
                     ),

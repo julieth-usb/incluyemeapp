@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
 import '../utils/app_theme.dart';
@@ -74,51 +74,22 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (providerKey == 'google') {
       result = await AuthService.tryNativeGoogleSignIn();
-    } else if (providerKey == 'facebook') {
-      result = await AuthService.tryNativeFacebookSignIn();
     } else {
       result = const NativeSignInAttempt.failed('Proveedor no soportado.');
     }
 
     if (!mounted) return;
+
     if (result.wasCancelled) {
       setState(() => _isLoading = false);
       return;
     }
 
-    String? socialEmail = result.email;
-
-    if (socialEmail == null) {
-      setState(() => _isLoading = false);
-      final message = result.error ??
-          'No se pudo iniciar con $provider. Revisa la configuracion nativa.';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      );
-      socialEmail = await _askProviderFallbackEmail(provider);
-      if (!mounted || socialEmail == null) {
-        return;
-      }
-      setState(() => _isLoading = true);
-    }
-
-    final error = await AuthService.signInWithProvider(
-      provider: provider,
-      email: socialEmail,
-    );
-
-    if (!mounted) return;
-
-    if (error != null) {
+    if (result.error != null) {
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(error),
+          content: Text(result.error!),
           backgroundColor: Colors.redAccent,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -127,61 +98,10 @@ class _AuthScreenState extends State<AuthScreen> {
       return;
     }
 
+    // Si llegamos aquí, la sesión ya está iniciada en Firebase por AuthService
     _goToApp();
   }
 
-  Future<String?> _askProviderFallbackEmail(String provider) async {
-    final controller = TextEditingController(
-      text: _emailController.text.trim(),
-    );
-    final formKey = GlobalKey<FormState>();
-
-    final email = await showDialog<String>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text('Continuar con $provider'),
-          content: Form(
-            key: formKey,
-            child: TextFormField(
-              controller: controller,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Correo de la cuenta',
-                hintText: 'docente@correo.com',
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Ingresa un correo';
-                }
-                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())) {
-                  return 'Correo no válido';
-                }
-                return null;
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancelar'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (!formKey.currentState!.validate()) return;
-                Navigator.of(dialogContext).pop(controller.text.trim().toLowerCase());
-              },
-              child: const Text('Continuar'),
-            ),
-          ],
-        );
-      },
-    );
-
-    controller.dispose();
-    return email;
-  }
 
   Future<void> _handlePasswordReset() async {
     final result = await showDialog<_PasswordResetResult>(
@@ -250,13 +170,12 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 430),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -305,7 +224,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           const SizedBox(height: 18),
           Text(
-            'Incluyeme',
+            'Inclúyeme',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: Colors.white,
@@ -368,7 +287,7 @@ class _AuthScreenState extends State<AuthScreen> {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
@@ -390,14 +309,17 @@ class _AuthScreenState extends State<AuthScreen> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              ),
               decoration: _inputDecoration(
-                label: 'Correo electronico',
+                label: 'Correo electrónico',
                 hint: 'docente@incluyeme.com',
                 icon: Icons.mail_outline_rounded,
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Ingresa tu correo electronico';
+                  return 'Ingresa tu correo electrónico';
                 }
                 if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())) {
                   return 'Ingresa un correo válido';
@@ -419,9 +341,12 @@ class _AuthScreenState extends State<AuthScreen> {
                   FocusScope.of(context).nextFocus();
                 }
               },
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              ),
               decoration: _inputDecoration(
-                label: 'contraseña',
-                hint: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
+                label: 'Contraseña',
+                hint: '••••••••',
                 icon: Icons.lock_outline_rounded,
               ).copyWith(
                 suffixIcon: IconButton(
@@ -453,6 +378,9 @@ class _AuthScreenState extends State<AuthScreen> {
                 obscureText: _obscureConfirmPassword,
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_) => _handlePrimaryAction(),
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                ),
                 decoration: _inputDecoration(
                   label: 'Confirmar contraseña',
                   hint: 'Repite tu contraseña',
@@ -544,32 +472,18 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 18),
               _buildDivider(context),
               const SizedBox(height: 14),
-              Row(
-                children: [
-                  Expanded(
-                    child: _SocialButton(
-                      label: 'Google',
-                      icon: Icons.g_mobiledata_rounded,
-                      backgroundColor: const Color(0xFFF7F7F7),
-                      foregroundColor: AppColors.textDark,
-                      onTap: _isLoading ? null : () => _handleProviderLogin('Google'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _SocialButton(
-                      label: 'Facebook',
-                      icon: Icons.facebook_rounded,
-                      backgroundColor: const Color(0xFFF7F7F7),
-                      foregroundColor: AppColors.textDark,
-                      onTap: _isLoading ? null : () => _handleProviderLogin('Facebook'),
-                    ),
-                  ),
-                ],
+              _SocialButton(
+                label: 'Continuar con Google',
+                icon: Icons.g_mobiledata_rounded,
+                backgroundColor: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white.withAlpha(15)
+                    : const Color(0xFFF7F7F7),
+                foregroundColor: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.textDark,
+                onTap: _isLoading ? null : () => _handleProviderLogin('Google'),
               ),
             ],
-            const SizedBox(height: 18),
-            _buildBottomLink(context),
           ],
         ),
       ),
@@ -614,7 +528,7 @@ class _AuthScreenState extends State<AuthScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            'O continua con',
+            'O continúa con',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.grey[500],
                 ),
@@ -630,56 +544,28 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  Widget _buildBottomLink(BuildContext context) {
-    final message = _mode == _AuthMode.login
-        ? 'Â¿No tienes cuenta? '
-        : 'Â¿Ya tienes cuenta? ';
-    final action = _mode == _AuthMode.login ? 'Regístrate aquí' : 'Inicia sesión';
-    final targetMode =
-        _mode == _AuthMode.login ? _AuthMode.register : _AuthMode.login;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          message,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey[600],
-              ),
-        ),
-        GestureDetector(
-          onTap: _isLoading ? null : () => _setMode(targetMode),
-          child: Text(
-            action,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.blue,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-          ),
-        ),
-      ],
-    );
-  }
-
   InputDecoration _inputDecoration({
     required String label,
     required String hint,
     required IconData icon,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InputDecoration(
       labelText: label,
+      labelStyle: TextStyle(
+        color: isDark ? Colors.white70 : Colors.grey[700],
+      ),
       hintText: hint,
       prefixIcon: Icon(icon, color: AppColors.blue),
       filled: true,
-      fillColor: const Color(0xFFF9FAFD),
+      fillColor: isDark ? Colors.white.withAlpha(10) : const Color(0xFFF9FAFD),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.grey.shade200),
+        borderSide: BorderSide(color: isDark ? Colors.white12 : Colors.grey.shade200),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.grey.shade200),
+        borderSide: BorderSide(color: isDark ? Colors.white12 : Colors.grey.shade200),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -721,7 +607,7 @@ class _ModeButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
             gradient: selected ? AppGradients.main : null,
-            color: selected ? null : const Color(0xFFF5F6FA),
+            color: selected ? null : (Theme.of(context).brightness == Brightness.dark ? Colors.white.withAlpha(20) : const Color(0xFFF5F6FA)),
             borderRadius: BorderRadius.circular(14),
           ),
           alignment: Alignment.center,
@@ -729,7 +615,7 @@ class _ModeButton extends StatelessWidget {
             label,
             style: TextStyle(
               fontWeight: FontWeight.w700,
-              color: selected ? Colors.white : AppColors.textDark,
+              color: selected ? Colors.white : (Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.textDark),
             ),
           ),
         ),

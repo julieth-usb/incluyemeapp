@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
 import '../utils/app_theme.dart';
@@ -70,7 +70,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: Stack(
         children: [
           Positioned(
@@ -123,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 22),
                     const Text(
-                      'Incluyeme',
+                      'Inclúyeme',
                       style: TextStyle(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,

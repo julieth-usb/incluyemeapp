@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class NativeSignInAttempt {
   const NativeSignInAttempt._({
@@ -61,7 +60,7 @@ class AuthService {
     required String provider,
     required String email,
   }) async {
-    // Ya se completó la autenticación en tryNativeGoogleSignIn / tryNativeFacebookSignIn.
+    // Ya se completó la autenticación en tryNativeGoogleSignIn.
     return null;
   }
 
@@ -85,7 +84,6 @@ class AuthService {
     await Future.wait([
       _auth.signOut(),
       _googleSignIn.signOut(),
-      FacebookAuth.instance.logOut().catchError((_) {}),
     ]);
   }
 
@@ -138,37 +136,6 @@ class AuthService {
     }
   }
 
-  static Future<NativeSignInAttempt> tryNativeFacebookSignIn() async {
-    try {
-      final result = await FacebookAuth.instance.login(
-        permissions: const ['email', 'public_profile'],
-        loginBehavior: LoginBehavior.nativeWithFallback,
-      ).timeout(
-        const Duration(seconds: 30),
-        onTimeout: () => throw TimeoutException('Facebook login timed out'),
-      );
-
-      if (result.status == LoginStatus.cancelled) {
-        return const NativeSignInAttempt.cancelled();
-      }
-
-      if (result.status != LoginStatus.success || result.accessToken == null) {
-        return NativeSignInAttempt.failed(
-          result.message ?? 'No se pudo abrir el selector nativo de Facebook.',
-        );
-      }
-
-      final credential = FacebookAuthProvider.credential(result.accessToken!.tokenString);
-      final authResult = await _auth.signInWithCredential(credential);
-
-      final email = authResult.user?.email ?? 'facebook_user';
-      return NativeSignInAttempt.success(email);
-    } on FirebaseAuthException catch (e) {
-      return NativeSignInAttempt.failed(_handleFirebaseError(e));
-    } catch (error) {
-      return NativeSignInAttempt.failed('Facebook error no esperado: $error');
-    }
-  }
 
   static String _handleFirebaseError(FirebaseAuthException e) {
     switch (e.code) {
@@ -191,7 +158,7 @@ class AuthService {
       case 'app-not-authorized':
         return 'La app no esta autorizada para Google Sign-In. Revisa OAuth, SHA y package name.';
       case 'operation-not-allowed':
-        return 'Google Sign-In no esta habilitado en Firebase Authentication.';
+        return 'Este método de inicio de sesión no está habilitado en Firebase Authentication.';
       default:
         return 'Error: ${e.message}';
     }
