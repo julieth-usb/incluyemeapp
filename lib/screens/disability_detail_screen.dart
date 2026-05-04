@@ -186,11 +186,11 @@ class _StrategyCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(13),
+            color: Colors.black.withAlpha(Theme.of(context).brightness == Brightness.dark ? 50 : 13),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
