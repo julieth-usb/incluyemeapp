@@ -337,6 +337,17 @@ class _MainShellState extends State<MainShell> {
                     ),
                   ),
                   const SizedBox(height: 24),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.bug_report_outlined, color: Colors.orange),
+                    title: const Text('Reportar un problema'),
+                    subtitle: const Text('Ayúdanos a mejorar la app'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _mostrarDialogoReporte(context);
+                    },
+                  ),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),
@@ -444,6 +455,81 @@ class _MainShellState extends State<MainShell> {
     );
   }
 
+  void _mostrarDialogoReporte(BuildContext context) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Row(
+            children: [
+              Icon(Icons.bug_report_outlined, color: Colors.orange),
+              SizedBox(width: 10),
+              Text('Reportar problema'),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Cuéntanos qué sucedió:',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: controller,
+                maxLines: 4,
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Describe el error aquí...',
+                  hintStyle: const TextStyle(fontSize: 14),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  fillColor: Theme.of(context).brightness == Brightness.dark 
+                      ? Colors.white.withAlpha(10) 
+                      : Colors.grey.shade50,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (controller.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Por favor escribe algo.')),
+                  );
+                  return;
+                }
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Reporte enviado. ¡Gracias por ayudarnos!'),
+                    backgroundColor: AppColors.blue,
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.blue,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              child: const Text('Enviar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildNavBar() {
     return Container(
       decoration: BoxDecoration(
@@ -468,14 +554,14 @@ class _MainShellState extends State<MainShell> {
             label: 'Inicio',
           ),
           NavigationDestination(
+            icon: Icon(Icons.list_alt_outlined),
+            selectedIcon: Icon(Icons.list_alt_rounded),
+            label: 'Discapacidades',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.lightbulb_outline),
             selectedIcon: Icon(Icons.lightbulb_rounded),
             label: 'Estrategias',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.auto_awesome_outlined),
-            selectedIcon: Icon(Icons.auto_awesome),
-            label: 'Novedades',
           ),
         ],
       ),
